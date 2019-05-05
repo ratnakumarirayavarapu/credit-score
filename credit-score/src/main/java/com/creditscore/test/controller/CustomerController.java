@@ -1,8 +1,11 @@
 package com.creditscore.test.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,14 +43,23 @@ public class CustomerController {
      * HTTP method: POST
      * 
      */		
-	@RequestMapping(value="/customers", method = RequestMethod.POST)
-	public ResponseEntity<?> addCustomer(@RequestBody Customer customer) {
-		System.out.println("coming in post");
-		int result = customerService.addCustomer(customer);
-		return new ResponseEntity<>("Your credit score is "+result, HttpStatus.CREATED);
+	@RequestMapping(value = "/customers", method = RequestMethod.POST)
+	public ResponseEntity<?> addCustomer(@Valid @RequestBody Customer customer, BindingResult result) {
+
+		if (!result.hasErrors()) {
+			int score = customerService.addCustomer(customer);
+			return new ResponseEntity<>("Your credit score is " + score, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("all fields are mandatory. please enter all the fields and submit",
+					HttpStatus.CREATED);
+
+		}
 	}
 	
-    /**
+
+
+
+	/**
      * 
      * this method maps the following URL & http method
      * URL: http://hostname:port/appName/customers
@@ -55,10 +67,15 @@ public class CustomerController {
      * 
      */	
     @RequestMapping(value = "/customers", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer) {
-    	System.out.println("coming in put");
-    	int result = customerService.addCustomer(customer);
-    	return new ResponseEntity<>("Your credit score is "+result, HttpStatus.OK);
+    public ResponseEntity<?> updateCustomer(@Valid @RequestBody Customer customer, BindingResult result) {
+    	if (!result.hasErrors()) {
+			int score = customerService.addCustomer(customer);
+			return new ResponseEntity<>("Your credit score is " + score, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("all fields are mandatory. please enter all the fields and submit",
+					HttpStatus.CREATED);
+
+		}
     }
 
     /**

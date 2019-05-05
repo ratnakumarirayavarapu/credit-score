@@ -1,45 +1,37 @@
 package com.creditscore.test.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 
 @Entity
+@IdClass(CompositeKey.class)
 public class Customer {
 
-	
+	@Id
+	@NotNull
     String firstName;
+	@Id
+	@NotNull
     String lastName;
+	@NotNull
+	@Min(value = 1)
     int age;
     @Id
+    @NotNull
     String dob;
-    int annualIncome;
+    @NotNull
+    @Min(value = 1, message = "")
+    long annualIncome;
     int score;
-    
-    /*  public Customer(String firstName, String lastName, int age, String dob, int annualIncome) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.age = age;
-		this.dob = dob;
-		this.annualIncome = annualIncome;
-		
-	}*/
-    
-    
-   /* public Customer(int id, String firstName, String lastName, int age, String dob, int annualIncome, int score) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.age = age;
-		this.dob = dob;
-		this.annualIncome = annualIncome;
-		this.score = score;
-	}*/
-    
+      
     
 	public String getFirstName() {
 		return firstName;
@@ -66,10 +58,10 @@ public class Customer {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
-	public int getAnnualIncome() {
+	public long getAnnualIncome() {
 		return annualIncome;
 	}
-	public void setAnnualIncome(int annualIncome) {
+	public void setAnnualIncome(long annualIncome) {
 		this.annualIncome = annualIncome;
 	}
 	public int getScore() {
@@ -77,8 +69,6 @@ public class Customer {
 	}
 	public void setScore(int score) {
 		this.score = score;
-	}
-	
-    
+	}    
 	
 }

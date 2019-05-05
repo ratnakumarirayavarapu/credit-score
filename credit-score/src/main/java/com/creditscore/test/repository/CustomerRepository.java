@@ -21,10 +21,13 @@ public class CustomerRepository {
 	public int getCustomerDetails(Customer customer) {
 		String SQL = "select c.score from Customer c where c.firstName = '" 
 				+ customer.getFirstName() + "' and c.lastName='" + customer.getLastName() 
-				+ "' and c.age="+ customer.getAge() +"and c.dob ='" + customer.getDob() + "'";
+				+ "' and c.age="+ customer.getAge() 
+				+"and c.dob ='" + customer.getDob() 
+				+ "' and c.annualIncome=" + customer.getAnnualIncome();
 		Query query = eManager.createQuery(SQL);
-		int result = (int) query.getSingleResult();
-		return result;
+		List<Integer> result = query.getResultList();
+		if(result.size()==0) return 0;
+		return result.get(0);
 	}
 	
 	public void addCustomerDetails(Customer customer) {

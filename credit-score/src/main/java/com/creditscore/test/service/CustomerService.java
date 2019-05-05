@@ -29,12 +29,16 @@ public class CustomerService {
 			customer.setScore(creditScore);
 			customerRepository.addCustomerDetails(customer);
 		}
-		System.out.println("credit score" + creditScore);
 		return creditScore;
 	}
 
 	private int calculateCreditScore(Customer customer) {
-		int value =  Math.floorDiv(customer.getAnnualIncome(), (Math.multiplyExact(customer.getAge(), 12)));
-		return value+300;
+		try {
+		long value =  Math.floorDiv(customer.getAnnualIncome(), (Math.multiplyExact(customer.getAge(), 12)));
+		if((Math.addExact(value, 300))<1000) return (int) (value+300);
+		return 999;
+		} catch(Exception e) {
+			return 0;
+		}
 	}
 }
