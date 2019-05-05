@@ -24,11 +24,12 @@ public class CustomerController {
     /**
      * 
      * this method maps the following URL & http method
-     * URL: http://hostname:port/credit-score/customers
+     * URL: http://hostname:port/credit-score/getCustomers
+     * URL: http://localhost:8080/credit-score/getCustomers
      * HTTP method: GET
      * 
      */	
-	@RequestMapping(value="/customers", method = RequestMethod.GET)
+	@RequestMapping(value="/getCustomers", method = RequestMethod.GET)
 	public ResponseEntity<?> getCustomers() {
 		Iterable<Customer> customerList = customerService.getCustomers();
 		return new ResponseEntity<>(customerList, HttpStatus.OK);
@@ -39,30 +40,29 @@ public class CustomerController {
     /**
      * 
      * this method maps the following URL & http method
-     * URL: http://hostname:port/appName/customers
+     * URL: http://hostname:port/appName/addCustomer
+     * URL: http://localhost:8080/credit-score/addCustomer
      * HTTP method: POST
      * 
      */		
-	@RequestMapping(value = "/customers", method = RequestMethod.POST)
+	@RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
 	public ResponseEntity<?> addCustomer(@Valid @RequestBody Customer customer, BindingResult result) {
 
 		if (!result.hasErrors()) {
 			int score = customerService.addCustomer(customer);
 			return new ResponseEntity<>("Your credit score is " + score, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>("all fields are mandatory. please enter all the fields and submit",
-					HttpStatus.CREATED);
+			return new ResponseEntity<>("please enter all mandatory fields firstName, lastName, age, dob, annualIncome",
+					HttpStatus.PRECONDITION_FAILED);
 
 		}
 	}
-	
-
-
 
 	/**
      * 
      * this method maps the following URL & http method
-     * URL: http://hostname:port/appName/customers
+     * URL: http://hostname:port/appName/addCustomer
+     * URL: http://localhost:8080/credit-score/addCustomer
      * HTTP method: PUT
      * 
      */	
@@ -73,7 +73,7 @@ public class CustomerController {
 			return new ResponseEntity<>("Your credit score is " + score, HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<>("all fields are mandatory. please enter all the fields and submit",
-					HttpStatus.CREATED);
+					HttpStatus.PRECONDITION_FAILED);
 
 		}
     }
